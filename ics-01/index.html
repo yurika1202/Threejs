@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<script src="https://unpkg.com/three@0.140.2/build/three.min.js"></script>
+<script>
+// HTMLの読み込みが終わってからThree.jsを実行
+window.addEventListener('DOMContentLoaded', init);
+
+function init() {
+    // 表示サイズ
+    const width = 960;
+    const height = 540;
+
+    // レンダラー
+    const renderer = new THREE.WebGLRenderer({
+        canvas: document.querySelector('#myCanvas')
+    }); // canvasの連携
+    renderer.setPixelRatio(window.devicePixelRatio); // デバイスの解像度を補正
+    renderer.setSize(width, height); // サイズの設定
+
+    // シーン
+    const scene = new THREE.Scene();
+
+    // カメラ（視点）
+    const camera = new THREE.PerspectiveCamera(45, width / height); // 画角とアスペクト比を設定
+    camera.position.set(0, 0, 1000); // カメラの座標位置を設定
+    /*
+    画角？
+    映る範囲を角度で表したもの。上記だと45度。
+    なので角度が小さいほど近くなる。
+    */
+
+    // 箱
+    /*
+    ジオメトリ：形状
+    マテリアル：素材（色や質感）
+    メッシュ：表示オブジェクト（ジオメトリとマテリアルを設定）
+    */
+    const geometry = new THREE.BoxGeometry(400, 400, 400); // 幅 高さ 奥行
+    const material = new THREE.MeshNormalMaterial();
+    const box = new THREE.Mesh(geometry, material);
+    scene.add(box); // シーンに追加
+
+    // アニメーションの初回実行
+    tick();
+    function tick() {
+        requestAnimationFrame(tick); // tick関数を毎フレーム毎に実行する
+        box.rotation.y += 0.01; // Y軸を起点に0.01度ずつ回転させる
+        renderer.render(scene, camera); // 画面更新するようレンダリング
+    }
+}
+</script>
+</head>
+<body>
+<!-- コンテンツの描画エリア -->
+<canvas id="myCanvas"></canvas>
+</body>
+</html>
