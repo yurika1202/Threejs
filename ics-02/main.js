@@ -22,7 +22,7 @@ function init() {
     );
     camera.position.set(0, 0, 1000);
 
-    //　球体
+    // 球体
     const geometry = new THREE.SphereGeometry(300, 30, 30);
     // const material = new THREE.MeshStandardMaterial({color: 0xFF0000});
 
