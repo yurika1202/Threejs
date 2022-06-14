@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import countriesJson from "./countries.json";
 import TopPage from "./pages/TopPage";
+import WorldPage from "./pages/WorldPage";
 import "./App.css";
 
 function App() {
@@ -18,6 +20,7 @@ function App() {
     newRecovered: "",
     totalRecovered: "",
   });
+  const [allCountriesDate, setAllCountriesDate] = useState([]);
   const getCountryDate = () => {
     // fetch：非同期通信で指定先のデータを取得
     fetch(`https://api.covid19api.com/country/${country}`)
@@ -35,18 +38,34 @@ function App() {
         });
       });
   };
+  useEffect(() => {
+    fetch("https://api.covid19api.com/summary")
+      .then((res) => res.json())
+      .then((date) => setAllCountriesDate(date.Countries));
+  }, []);
 
   return (
-    <div>
-      {/* 任意のdate名に渡したいdateを指定すると、コンポーネントにデータが渡される 
-          コンポーネント内ではprops.countryNameでデータにアクセスできる。 */}
-      <TopPage
-        countriesJson={countriesJson}
-        setCountry={setCountry}
-        getCountryDate={getCountryDate}
-        countryDate={countryDate}
-      />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            /* 任意のdate名に渡したいdateを指定すると、コンポーネントにデータが渡される 
+            コンポーネント内ではprops.countryNameでデータにアクセスできる。 */
+            <TopPage
+              countriesJson={countriesJson}
+              setCountry={setCountry}
+              getCountryDate={getCountryDate}
+              countryDate={countryDate}
+            />
+          }
+        ></Route>
+        <Route
+          path="/world"
+          element={<WorldPage allCountriesDate={allCountriesDate} />}
+        ></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
