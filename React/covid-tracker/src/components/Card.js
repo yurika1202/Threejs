@@ -1,7 +1,7 @@
-const Card = (props) => {
+const Card = ({ allCountriesDate }) => {
   return (
     <div className="card-container">
-      {props.allCountriesDate.map((singleDate, index) => (
+      {allCountriesDate.map((singleDate, index) => (
         <div key={index} className="card">
           <div>
             <h2>{singleDate.Country}</h2>
