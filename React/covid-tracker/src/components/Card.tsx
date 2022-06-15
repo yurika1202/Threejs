@@ -1,4 +1,7 @@
-const Card = ({ allCountriesDate }) => {
+import * as React from "react";
+import { CardType } from "../types";
+
+const Card = ({ allCountriesDate }: CardType) => {
   return (
     <div className="card-container">
       {allCountriesDate.map((singleDate, index) => (

@@ -1,8 +1,9 @@
 import Header from "../components/Header";
 import Card from "../components/Card";
 import Title from "../components/Title";
+import { WorldPageType } from "../types";
 
-const WorldPage = ({ allCountriesDate }) => {
+const WorldPage = ({ allCountriesDate }: WorldPageType) => {
   return (
     <div className="world-page-container">
       <Header />

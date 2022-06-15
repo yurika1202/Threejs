@@ -1,9 +1,11 @@
+import * as React from "react";
 import { useState, useEffect } from "react";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import countriesJson from "./countries.json";
 import TopPage from "./pages/TopPage";
 import WorldPage from "./pages/WorldPage";
 import "./App.css";
+import { CountryDateType, AllCountriesDateType } from "./types";
 
 function App() {
   /**
@@ -12,16 +14,22 @@ function App() {
    * setCountry = stateを操作する仕組み（格納されているデータを操作する）
    * useState("初期データ")
    */
-  const [loading, setLoading] = useState(false);
-  const [country, setCountry] = useState("japan");
-  const [countryDate, setCountryDate] = useState({
+  const [loading, setLoading] = useState<boolean>(false);
+  const [country, setCountry] = useState<string>("japan");
+  const [countryDate, setCountryDate] = useState<CountryDateType>({
     date: "",
-    newConfirmed: "",
-    totalConfirmed: "",
-    newRecovered: "",
-    totalRecovered: "",
+    newConfirmed: 0,
+    totalConfirmed: 0,
+    newRecovered: 0,
+    totalRecovered: 0,
   });
-  const [allCountriesDate, setAllCountriesDate] = useState([]);
+  const [allCountriesDate, setAllCountriesDate] = useState<AllCountriesDateType>([
+    {
+      Country: "",
+      NewConfirmed: 0,
+      TotalConfirmed: 0,
+    },
+  ]);
 
   // 第二引数にcountry stateを指定しているので、
   // country stateが変更されるたびに実行される。
@@ -56,17 +64,14 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            /* 任意のdate名に渡したいdateを指定すると、コンポーネントにデータが渡される 
-            コンポーネント内ではprops.countryNameでデータにアクセスできる。 */
-            <TopPage countriesJson={countriesJson} setCountry={setCountry} countryDate={countryDate} loading={loading} />
-          }
-        ></Route>
-        <Route path="/world" element={<WorldPage allCountriesDate={allCountriesDate} />}></Route>
-      </Routes>
+      <Switch>
+        <Route exact path="/">
+          <TopPage countriesJson={countriesJson} setCountry={setCountry} countryDate={countryDate} loading={loading} />
+        </Route>
+        <Route exact path="/world">
+          <WorldPage allCountriesDate={allCountriesDate} />
+        </Route>
+      </Switch>
     </BrowserRouter>
   );
 }

@@ -1,9 +1,13 @@
-const Selector = ({ setCountry, countriesJson }) => {
+import * as React from "react";
+
+import { SelectorType } from "../types";
+
+const Selector = ({ setCountry, countriesJson }: SelectorType) => {
   return (
     <div className="selector-container">
       <select onChange={(e) => setCountry(e.target.value)}>
         {countriesJson.map((country, index) => (
-          <option key={index} value={country.slug}>
+          <option key={index} value={country.Slug}>
             {country.Country}
           </option>
         ))}
