@@ -1,0 +1,11 @@
+// コンパイラ設定
+{
+  // tsconfig.jsonの設定を継承
+  "extends": "./tsconfig.json",
+
+  // .eslintrc.jsなどの設定ファイルもチェック対象に含める
+  "compilerOptions": {
+    "allowJs": true
+  },
+  "include": ["src", ".*.js", "*.js"]
+}
