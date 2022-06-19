@@ -2,6 +2,17 @@
 
 I study every day to master front-end skills.
 
+## JavaScript
+
+Firmly solidify the basics of JavaScript.  
+The goal is to be able to think for yourself and write code.
+
+### Teaching materials
+
+- [udemy-ガチで学びたい人のための JavaScript メカニズム](https://www.udemy.com/course/javascript-essence/)
+
+... and more.
+
 ## Three.js
 
 I am not good at math.  
