@@ -1,0 +1,55 @@
+.writingText {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.text {
+  mask: url(#mask-anime);
+}
+
+#mask {
+  fill: none;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  stroke-width: 5px;
+  stroke-dasharray: 1500px;
+  animation: writing 8s;
+}
+@keyframes writing {
+  0% {
+    stroke-dashoffset: 1500px;
+  }
+  100% {
+    stroke-dashoffset: 0px;
+  }
+}
+
+.cls-1 {
+  isolation: isolate;
+}
+.cls-2 {
+  fill: #6f6e6e;
+}
+.cls-3 {
+  fill: #a9aaab;
+}
+.cls-4 {
+  fill: #8f8f90;
+}
+.cls-5 {
+  fill: #302927;
+}
+.cls-6 {
+  fill: #231815;
+}
+.cls-7 {
+  mix-blend-mode: multiply;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+}
