@@ -3,7 +3,12 @@
   padding: 0;
 }
 
-/* flow text */
+body {
+  height: 1000px;
+}
+
+/* flow text
+-------------------------------- */
 .flow-text {
   height: 120px;
   padding: 1em;
@@ -61,7 +66,8 @@
   border-radius: 20px;
 }
 
-/* flow img */
+/* flow img
+------------------------------- */
 .flow-img {
   margin-top: 30px;
   height: 100px;
@@ -100,4 +106,20 @@
   font-size: 8vw;
   text-align: center;
   color: #333;
+}
+
+/* line
+--------------------------------- */
+.line-box {
+  height: 100%;
+  position: relative;
+}
+
+.line {
+  width: 5px;
+  height: 10%;
+  background: #000;
+  position: absolute;
+  top: 0;
+  left: 5vw;
 }
