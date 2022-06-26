@@ -47,7 +47,7 @@ console.log(map.get(key1)); // undefined
 ```
 
 - delete で削除
-- for...of での反復処理は 0601 参照
+- for...of での反復処理は [0601 参照](0601/main.js)
 
 ### イテレーター
 
@@ -68,7 +68,7 @@ function getIterator() {
 }
 ```
 
-- 0602 参照
+- [0602 参照](0602/main.js)
 
 ### ジェネレーター
 
