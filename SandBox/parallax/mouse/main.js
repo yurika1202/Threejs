@@ -10,14 +10,15 @@ class ParallaxMouseMove {
     this.parallaxVal = val;
   }
 
-  parallax() {
-    this.targets.forEach(target => {
-      target.addEventListener('mousemove', event => {
+  parallax(target) {
+    const ActiveTargets = target.querySelectorAll('.parallaxTarget');
+    ActiveTargets.forEach(activeTarget => {
+      activeTarget.addEventListener('mousemove', event => {
         // パララックス座標 = (ウィンドウ中心座標からのマウス位置) - パララックス移動距離
         const x = (this.windowCenterX - event.pageX) / this.parallaxVal;
         const y = (this.windowCenterY - event.pageY) / this.parallaxVal;
         // transform値変更
-        target.style.transform = `translate(${-x}px, ${-y}px`;
+        activeTarget.style.transform = `translate(${-x}px, ${-y}px`;
       });
     });
   }
@@ -26,5 +27,5 @@ class ParallaxMouseMove {
 const parallaxTargets = document.querySelectorAll('.parallaxBox');
 const parallaxMouseMove = new ParallaxMouseMove(parallaxTargets, 10);
 parallaxTargets.forEach(parallaxTarget => {
-  parallaxMouseMove.parallax();
+  parallaxMouseMove.parallax(parallaxTarget);
 });
