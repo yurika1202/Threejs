@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.secBg,
+.contents {
+  width: 100%;
+  height: 100vh;
+}
+
+.secBg01 {
+  background: url(./img/bg01.jpg) no-repeat center center / cover;
+  background-attachment: fixed;
+}
+
+.secBg02 {
+  background: url(./img/bg02.jpg) no-repeat center center / cover;
+  background-attachment: fixed;
+}
+.secBg03 {
+  background: url(./img/bg03.jpg) no-repeat center center / cover;
+  background-attachment: fixed;
+}
+
+.contents01 {
+  background: cadetblue;
+}
+
+.contents02 {
+  background: slategray;
+}
+
+.contents03 {
+  background: darkgray;
+}
