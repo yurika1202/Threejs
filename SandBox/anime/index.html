@@ -11,20 +11,32 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
+    <!-- スクロールに応じて伸びる線 -->
     <div class="line-box">
       <span class="line"></span>
+
+      <!-- 流れるテキスト -->
       <div class="flow-text">
         <div class="flow-text_img">
           <img src="./leaf.webp" alt="" />
         </div>
       </div>
 
+      <!-- 流れる画像 -->
       <div class="flow-img">
         <div class="flow-img_text">
           <p>Flowing image</p>
         </div>
       </div>
+
+      <!-- シャッフルテキスト -->
+      <div class="shuffleText-box">
+        <p class="shuffleText_lib">この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。</p>
+        <p class="shuffleText_lib">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      </div>
     </div>
-    <script src="./main.js"></script>
+
+    <script src="shuffle-text.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>
