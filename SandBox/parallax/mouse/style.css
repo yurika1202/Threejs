@@ -14,13 +14,14 @@ body {
   gap: 100px;
 }
 
-.parallaxBox {
+.parallaxBox,
+.parallaxBox_rem {
   width: 60%;
   height: 60%;
   position: relative;
 }
 
-.parallaxBox._rem {
+.parallaxBox_rem .parallaxTarget {
   background: gray;
 }
 
