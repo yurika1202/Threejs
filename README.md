@@ -10,6 +10,7 @@ The goal is to be able to think for yourself and write code.
 ### Teaching materials
 
 - [udemy-ガチで学びたい人のための JavaScript メカニズム](https://www.udemy.com/course/javascript-essence/)
+- ステップアップ JavaScript
 
 ... and more.
 
