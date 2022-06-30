@@ -10,16 +10,16 @@
 }
 
 .secBg01 {
-  background: url(./img/bg01.jpg) no-repeat center center / cover;
+  background: url(./img/bg01.webp) no-repeat center center / cover;
   background-attachment: fixed;
 }
 
 .secBg02 {
-  background: url(./img/bg02.jpg) no-repeat center center / cover;
+  background: url(./img/bg02.webp) no-repeat center center / cover;
   background-attachment: fixed;
 }
 .secBg03 {
-  background: url(./img/bg03.jpg) no-repeat center center / cover;
+  background: url(./img/bg03.webp) no-repeat center center / cover;
   background-attachment: fixed;
 }
 
