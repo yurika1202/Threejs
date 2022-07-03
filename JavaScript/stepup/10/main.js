@@ -1,8 +1,14 @@
 class WordQuiz {
-  constructor(root) {
+  constructor(root, timer) {
     this.rootElm = root;
     this.gameStatus = {};
     this.resetGame();
+
+    if (Math.sign(timer) === 1) {
+      this.timeLimit = timer;
+    } else {
+      this.timeLimit = 10;
+    }
   }
 
   async init() {
@@ -82,7 +88,7 @@ class WordQuiz {
       throw new Error('まだタイマーが動いています');
     }
 
-    this.gameStatus.timeLimit = 10;
+    this.gameStatus.timeLimit = this.timeLimit;
     this.gameStatus.intervalKey = setInterval(() => {
       this.gameStatus.timeLimit--;
       if (this.gameStatus.timeLimit === 0) {
