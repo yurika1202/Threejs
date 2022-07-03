@@ -136,7 +136,7 @@ class WordQuiz {
     }
 
     // クイズページの作成
-    const html = `<p>${currentQuestion.word}</p><div>${choiceStrs.join('')}</div><div class="actions"><button class="nextBtn">解答する</button><p class="sec">残り解答時間：${this.gameStatus.timeLimit}秒</p></div>`;
+    const html = `<p class="currentTitle">現在${this.gameStatus.step}問目</p><p>${currentQuestion.word}</p><div>${choiceStrs.join('')}</div><div class="actions"><button class="nextBtn">解答する</button><p class="sec">残り解答時間：${this.gameStatus.timeLimit}秒</p></div>`;
     const parentElm = document.createElement('div');
     parentElm.className = 'question';
     parentElm.innerHTML = html;
