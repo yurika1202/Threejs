@@ -29,7 +29,7 @@ class WordQuiz {
 
   // 最終ステップを動的設定
   isLastStep() {
-    const currentQuestions = this.quizData[this.gameStatus.level];
+    const currentQuestions = this.quizData[this.gameStatus.genre][this.gameStatus.level];
     return this.gameStatus.step === Object.keys(currentQuestions).length;
   }
 
@@ -50,7 +50,7 @@ class WordQuiz {
   addResult() {
     const checkedElm = this.rootElm.querySelector('input[name="choice"]:checked');
     const answer = checkedElm ? checkedElm.value : ''; // 選択要素のvalueをanswer変数へ格納し、未選択の場合は空文字列を格納
-    const currentQuestion = this.quizData[this.gameStatus.level][`step${this.gameStatus.step}`];
+    const currentQuestion = this.quizData[this.gameStatus.genre][this.gameStatus.level][`step${this.gameStatus.step}`];
 
     this.gameStatus.results.push({
       question: currentQuestion, // 解答
@@ -74,6 +74,7 @@ class WordQuiz {
 
   // ステータスのリセット処理
   resetGame() {
+    this.gameStatus.genre = null; // 選択ジャンル
     this.gameStatus.level = null; // 選択レベル
     this.gameStatus.step = 1; // 現在表示中の設問番号
     this.gameStatus.results = []; // プレイヤーの解答結果
@@ -107,21 +108,52 @@ class WordQuiz {
 
   // 開始画面の表示
   displayStartView() {
-    const levelStrs = Object.keys(this.quizData);
-    this.gameStatus.level = levelStrs[0];
-    const optionStrs = [];
-    for (let i = 0; i < levelStrs.length; i++) {
-      optionStrs.push(`<option value="${levelStrs[i]}" name="level">レベル${i + 1}</option>`);
+    const genreStrs = Object.keys(this.quizData);
+    this.gameStatus.genre = genreStrs[0];
+    const genreOptionStrs = [];
+    for (let i = 0; i < genreStrs.length; i++) {
+      genreOptionStrs.push(`<option value="${genreStrs[i]}" name="genre">${genreStrs[i]}</option>`);
     }
 
-    const html = `<select class="levelSelector">${optionStrs.join('')}</select><button class="startBtn">スタート</button>`;
-    const parentElm = document.createElement('div');
-    parentElm.innerHTML = html;
+    let levelStrs = Object.keys(this.quizData[this.gameStatus.genre]);
+    this.gameStatus.level = levelStrs[0];
+    let levelOptionStrs = [];
+    for (let i = 0; i < levelStrs.length; i++) {
+      levelOptionStrs.push(`<option value="${levelStrs[i]}" name="level">レベル${i + 1}</option>`);
+    }
 
-    const selectorElm = parentElm.querySelector('.levelSelector');
-    selectorElm.addEventListener('change', e => {
-      this.gameStatus.level = e.target.value;
-    });
+    const genreSelectorHtml = `<select class="selector genreSelector">${genreOptionStrs.join('')}</select>`;
+    const levelSelectorHtml = `<select class="selector levelSelector">${levelOptionStrs.join('')}</select>`;
+    const startBtnHtml = `<button class="startBtn">スタート</button>`;
+    const parentElm = document.createElement('div');
+    parentElm.innerHTML = genreSelectorHtml + levelSelectorHtml + startBtnHtml;
+    const selectorElm = parentElm.querySelectorAll('.selector');
+    const levelElm = parentElm.querySelector('.levelSelector');
+
+    for (const select of selectorElm) {
+      select.addEventListener('change', e => {
+        if (select.classList.contains('genreSelector')) {
+          this.gameStatus.genre = e.target.value;
+          if (this.gameStatus.genre === 'words') {
+            levelOptionStrs = [];
+            levelStrs = Object.keys(this.quizData[this.gameStatus.genre]);
+            for (let i = 0; i < levelStrs.length; i++) {
+              levelOptionStrs.push(`<option value="${levelStrs[i]}" name="level">レベル${i + 1}</option>`);
+            }
+            levelElm.innerHTML = levelOptionStrs.join('');
+          } else if (this.gameStatus.genre === 'sentence') {
+            levelOptionStrs = [];
+            levelStrs = Object.keys(this.quizData[this.gameStatus.genre]);
+            for (let i = 0; i < levelStrs.length; i++) {
+              levelOptionStrs.push(`<option value="${levelStrs[i]}" name="level">レベル${i + 1}</option>`);
+            }
+            levelElm.innerHTML = levelOptionStrs.join('');
+          }
+        } else if (select.classList.contains('levelSelector')) {
+          this.gameStatus.level = e.target.value;
+        }
+      });
+    }
 
     const startBtnElm = parentElm.querySelector('.startBtn');
     startBtnElm.addEventListener('click', () => {
@@ -135,7 +167,7 @@ class WordQuiz {
     this.setTimer();
     // 各ステップの問題を配列として格納
     const stepKey = `step${this.gameStatus.step}`;
-    const currentQuestion = this.quizData[this.gameStatus.level][stepKey];
+    const currentQuestion = this.quizData[this.gameStatus.genre][this.gameStatus.level][stepKey];
     const choiceStrs = [];
     for (const choice of currentQuestion.choices) {
       choiceStrs.push(`<label><input type="radio" name="choice" value="${choice}" />${choice}</label>`);
