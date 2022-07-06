@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100%;
+  height: 300vh;
+  background: rgb(205, 205, 205);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 100px;
+  overflow-x: hidden;
+}
+
+.parallaxElmWrap {
+  overflow: hidden;
+}
+
+.parallaxElm img {
+  display: block;
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+}
+
+.parallaxElmWrap01 {
+  width: 50vw;
+  height: 400px;
+  margin-right: auto;
+}
+
+.parallaxElmWrap02 {
+  width: 80vw;
+  height: 200px;
+  margin: -150px 50px 0;
+  position: relative;
+  z-index: -1;
+}
