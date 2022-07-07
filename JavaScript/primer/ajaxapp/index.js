@@ -1,10 +1,12 @@
-function main() {
-  fetchUserInfo("js-primer-example")
-    .then((userInfo) => createView(userInfo))
-    .then((view) => displayView(view))
-    .catch((error) => {
-      console.error(`エラーが発生しました (${error})`);
-    });
+async function main() {
+  try {
+    const userId = getUserId();
+    const userInfo = await fetchUserInfo(userId);
+    const view = createView(userInfo);
+    displayView(view);
+  } catch (error) {
+    console.error(`エラーが発生しました (${error})`);
+  }
 }
 
 function fetchUserInfo(userID) {
@@ -19,6 +21,10 @@ function fetchUserInfo(userID) {
       return response.json();
     }
   });
+}
+
+function getUserId() {
+  return document.getElementById("userId").value;
 }
 
 function createView(userInfo) {
