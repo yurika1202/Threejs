@@ -1,48 +1,43 @@
-async function main() {
-  try {
-    const userId = getUserId();
-    const userInfo = await fetchUserInfo(userId);
-    const view = createView(userInfo);
-    displayView(view);
-  } catch (error) {
-    console.error(`エラーが発生しました (${error})`);
+class GithubUserInfo {
+  async init() {
+    const userId = this.getUserId();
+    const userInfo = await this.fetchUserInfo(userId);
+    const view = this.createView(userInfo);
+    this.displayView(view);
   }
-}
 
-function fetchUserInfo(userID) {
-  return fetch(
-    `https://api.github.com/users/${encodeURIComponent(userID)}`
-  ).then((response) => {
-    if (!response.ok) {
-      return Promise.reject(
-        new Error(`${response.status}: ${response.statusText}`)
+  async fetchUserInfo(userID) {
+    try {
+      const response = await fetch(
+        `https://api.github.com/users/${encodeURIComponent(userID)}`
       );
-    } else {
       return response.json();
+    } catch (error) {
+      console.error(`${response.status}: ${response.statusText}`);
     }
-  });
-}
+  }
 
-function getUserId() {
-  return document.getElementById("userId").value;
-}
+  getUserId() {
+    return document.getElementById("userId").value;
+  }
 
-function createView(userInfo) {
-  return escapeHTML`
-  <h4>${userInfo.name} (@${userInfo.login})</h4>
-  <img src="${userInfo.avatar_url}" alt="${userInfo.login}" height="100">
-  <dl>
-      <dt>Location</dt>
-      <dd>${userInfo.location}</dd>
-      <dt>Repositories</dt>
-      <dd>${userInfo.public_repos}</dd>
-  </dl>
-  `;
-}
+  createView(userInfo) {
+    return escapeHTML`
+    <h4>${userInfo.name} (@${userInfo.login})</h4>
+    <img src="${userInfo.avatar_url}" alt="${userInfo.login}" height="100">
+    <dl>
+        <dt>Location</dt>
+        <dd>${userInfo.location}</dd>
+        <dt>Repositories</dt>
+        <dd>${userInfo.public_repos}</dd>
+    </dl>
+    `;
+  }
 
-function displayView(view) {
-  const result = document.getElementById("result");
-  result.innerHTML = view;
+  displayView(view) {
+    const result = document.getElementById("result");
+    result.innerHTML = view;
+  }
 }
 
 // HTMLのエスケープ処理
