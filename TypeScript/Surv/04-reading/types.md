@@ -269,3 +269,41 @@ function initNum() {
   - 変数の初期化が関数内で行われている場合
 - コンパイラオプション`strictNullChecks`と`strictPropertyInitialization`が true のとき
   - クラスのプロパティが、コンストラクタ以外のメソッドで初期化されている場合
+
+## typeof 演算子
+
+**JS**
+
+- 値の型を調べる際に使う演算子で、if 文や switch と併用すると条件と合致したときにその変数をその型として扱えるようになる
+
+```
+// unknown型とされた変数nが、typeof演算子によってstring型と判別される例
+const n: unknown = "";
+if(typeof n === "string") {
+  n.toUpperCase;
+}
+```
+
+- null の演算結果は object になるので注意
+
+```
+// 値がオブジェクトか判定する際の最適実装例
+function isObject(val) {
+  return val !== null && typeof val === "object";
+}
+```
+
+**TS**
+
+- 変数から型を抽出する型演算子
+
+```
+const point = {x: 135, y: 35};
+type Point = typeof point;
+
+// 下記と同意味
+type Point = {
+  x: number;
+  y: number;
+}
+```
