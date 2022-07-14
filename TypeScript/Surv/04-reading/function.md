@@ -121,3 +121,90 @@ function hello(person?: string) {
   return "Hello " + person.toUpperCase();
 }
 ```
+
+## 残余引数
+
+- 引数の数が決まってない時に使用する構文で、配列の型を記述する
+
+```
+function fn(...params: number[]) {}
+```
+
+## 分割代入
+
+- 引数の右にオブジェクト型の型注釈を記述する
+
+```
+function foo({a, b}: {a: number, b: number}) {}
+
+// 配列の場合
+function bar([num1]: number[]) {}
+
+// 配列のタプル型の場合
+function bar([num1, num2]: [number, number]) {}
+```
+
+- 分割代入引数に対応するオブジェクトプロパティや配列要素がない場合、JS では undefined が代入されるが TS はコンパイルエラーになるので注意
+- デフォルト引数も設定可能で、プロパティ既定値からプロパティ型が予想できる場合は型注釈を省略できる
+
+```
+function foo({a = 0}: {a?: number | string}) {}
+
+// 引数全体のデフォ値指定は型注釈のあとに記述
+function foo({a}: {a?: number} = {a: 0}) {}
+
+// 各プロパティの既定値と引数全体の既定値を指定する場合
+type Obj = {a?: number; b?: number};
+function foo({a = 0, b = 0}: Obj = {}) {}
+```
+
+- 分割代入引数名と同じ変数が定義してあれば、オブジェクトリテラルのプロパティ名を省略して変数だけを渡すことができる
+
+## Options Object パターン
+
+- 複数の位置引数を受け取る代わりに、ひとつのオブジェクトを引数に受け取るように設計された関数
+
+```
+function fn(options) {
+  console.log(options.x, options.y, options.z);
+}
+fn({x: 1, y: 2, z: 3});
+// 1 2 3
+
+// 分割代入を応用、型注釈も付与すると…
+function fn({x, y, z}): {x: number, y: number, z: number} {
+  console.log(x, y, z);
+}
+```
+
+- メリット
+  1. 引数の値が何を指すのか分かりやすい
+  2. 引数追加時に既存コードを壊さない
+  3. デフォ引数を省略できる
+
+## オーバーロード関数
+
+- 異なる引数や戻り値のパターンがいくつかある関数のことで、ひとつの関数に異なる関数シグネチャを複数もつ
+
+```
+// 関数シグネチャ
+function hello(person: string): void;
+function hello(persons: string[]): void;
+
+// 関数実装
+function hello(person: string | string[]): void {
+  if (typeof person === "string") {
+    console.log(`Hello ${person}`);
+  } else {
+    console.log(`Hello ${person.join(",")}`);
+  }
+}
+```
+
+- 関数シグネチャ部分はパターン数だけ書き、関数ボディは書けない
+- 実装部分は全パターンを網羅する関数を書く
+- アロー関数では使えないので、関数呼び出しシグネチャまたは関数型とインターセクション型で型注釈をする
+- 関数シグネチャは詳しい順にかく
+- 引数の数が違うだけの場合はオプション引数を使用する
+- 引数の型だけが異なる場合はユニオン型を使用する
+- 引数の型と戻り値の型に一定の対応関係がある場合は、ジェネリクスを使用する
