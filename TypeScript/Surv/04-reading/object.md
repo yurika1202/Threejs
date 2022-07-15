@@ -291,3 +291,115 @@ const title = book?.title ?? "デフォ値";
 ```
 
 - TS での使用時には、最後のプロパティの型と undefined のユニオン型が得られる
+
+## クラス
+
+- クラスを定義するとクラス名と同じ名前の型が同時に定義され、インスタンスを代入する変数に型注釈するときはクラス名を使用する
+
+```
+const person: Person = new Person();
+```
+
+- TS ではプロパティの追加・変更はできない
+- 非パブリックなプロパティが存在すると、公称型のクラスになる＝互換性をなく代入したりされたりが出来ない
+
+### コンストラクタ
+
+- コンストラクタ引数の型注釈は、関数型注釈と同様にする
+- 戻り値には型注釈できない（コンパイラに教える必要がないため）
+
+```
+class Person {
+  constructor(name: string) {}
+}
+```
+
+### フィールド
+
+- インスタンスにフィールドを持たせた際、TS ではフィールドの型注釈も必要になる＝クラス宣言時にフィールドを用意しておかないとコンパイルエラーになる
+
+```
+class Person {
+  name: string;
+}
+const alice = new Person();
+alice.name = "Alice";
+```
+
+- 宣言時に型を省略した場合、コンストラクタで値が代入されるとその値で型推論される
+- フィールドへの値代入はコンストラクタ内で this を用いてアクセスをする
+
+```
+class person {
+  name: string;
+
+  constructor(personName: string) {
+    this.name = personName;
+  }
+}
+const alice = new Person("Alice");
+```
+
+- フィールドの初期値を指定する時は、フィールド名に`=`を繋げて記述する
+
+```
+class Point {
+  x: number = 0;
+  y: number = 0;
+}
+// 上記の場合、値の型が明白なので型注釈は省略してもよい
+
+// コンストラクタで初期化する場合…
+class Point {
+  x: number;
+  y: number;
+
+  constructor() {
+    this.x = 0;
+    this.y = 0;
+  }
+}
+```
+
+- 静的フィールド（インスタンスではなくクラスのプロパティとして扱う）を宣言する時は static キーワードをつかう
+- 静的フィールドにアクセス修飾子や readonly をつけることも可能
+
+```
+class SomeClass {
+  static field: number = 123;
+}
+console.log(SomeClass.field); // 123
+// 上記のように初期値が設定されている場合は型推論が働くので型注釈の省略が可能
+```
+
+### メソッド
+
+- メソッドの引数と戻り値に型注釈ができ、関数宣言時の型注釈と同様
+- 静的フィールドと同様、静的メソッドを宣言する際には static キーワードを使う
+
+### readonly
+
+- フィールドに readonly 修飾子をつけると読み取り専用にでき、コンストラクタかフィールド初期化子でのみ値を代入できる
+- メソッド内の処理であっても再代入は不可能
+
+```
+class Octopus {
+  readonly name: string;
+  readonly legs = 8;
+
+  constructor() {
+    this.name = "たこ";
+  }
+
+  setName(newName: string): void {
+    this.name = newName; // error
+  }
+}
+
+const octopus = new Octopus();
+octopus.legs = 16; // error
+```
+
+### 抽象クラス（abstract）
+
+- 直接インスタンス化(new)できないクラスのことで、スーパークラスとして利用することを保障するもの
