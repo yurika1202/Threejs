@@ -15,3 +15,58 @@
 
 - 半径 1 の円の円周は 2π であり、度数法の 360 度＝弧度法の 2π となる
 - 270 度は 360 度の 3/4 なので、2π の 3/4 となる
+
+## 衝突判定
+
+### 点と矩形の場合
+
+- 点 P(x, y)と矩形 R(left(x), top(y), width, height)があるとする
+- まず X のみに焦点をあて、現在地がスタート地から衝突地点までの間に含まれているかどうかを判定（START <= X <= END）
+- START は矩形の left、END は矩形の left + width にあたる
+
+```
+let isCollection = (P.x >= R.left) && (P.x <= R.left + R.width);
+```
+
+- Y についても同様に考えることができ、以下のようになる
+
+```
+let isCollection = (
+  (P.x >= R.left) &&
+  (P.x <= R.left + R.width) &&
+  (P.y >= R.top) &&
+  (P.y <= R.top + R.height)
+)
+```
+
+### 矩形と矩形の場合
+
+- 矩形 R(left(x), top(y), width, height)と矩形 S(left(x), top(y), width, height)があるとする
+- この場合もまずは X のみに焦点をあて、矩形 S の START から END の間に矩形 R の START か END のいずれかが含まれているかを判定（矩形 R の START 点と END 点のどちらかが矩形 S の中に入っていれば衝突判定）
+
+```
+let isCollection = (
+  (R.left >= S.left && R.left <= S.left + S.width) ||
+  (R.left + R.width >= S.left && R.width <= S.left + S.width)
+)
+```
+
+- ||（論理和）を使うのは、矩形 R の START（左端）か矩形 R の END（右端）のどちらかが矩形 S の範囲に含まれるかどうかを調べているから
+- Y も同様に考えると以下のようになる
+
+```
+let isCollection = (
+  (R.left >= S.left && R.left <= S.left + S.width) ||
+  (R.left + R.width >= S.left && R.width <= S.left + S.width)
+) && (
+  (R.top >= S.top && R.top <= S.top + S.height) ||
+  (R.top + R.height >= S.top && R.height <= S.top + S.height)
+)
+```
+
+### 円と円の場合（ベクトルを利用）
+
+- 矩形との衝突判定の場合、画像の大きさをそのままキャラクターの大きさとしていたら直感に反する結果になったり、矩形が回転していたら上手く衝突判定が行えないのでベクトルを利用する
+- 2 点の座標を始点と終点と考えベクトルとして距離を測る（＝円の半径）
+- 2 つの円の半径を加算して合計を求め、求めた半径の合計値と 2 点間の距離を比較する
+- 半径の合計 > 2 点間の距離が成り立てば、2 つの円は重なっているということになる

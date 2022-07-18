@@ -5,6 +5,7 @@
   const shotMaxCount = 10;
   const enemyMaxCount = 10;
   const enemyShotMaxCount = 50;
+  const explosionMaxCount = 10;
   let util = null;
   let canvas = null;
   let ctx = null;
@@ -14,6 +15,7 @@
   let singleShotArray = [];
   let enemyArray = [];
   let enemyShotArray = [];
+  let explosionArray = [];
   let scene = null;
 
   window.addEventListener(
@@ -36,6 +38,11 @@
 
     // シーンの初期化
     scene = new SceneManager();
+
+    // 爆発エフェクトの初期化
+    for (let i = 0; i < explosionMaxCount; ++i) {
+      explosionArray[i] = new Explosion(ctx, 50.0, 15, 30.0, 0.25);
+    }
 
     // 自機の初期化
     viper = new Viper(ctx, 0, 0, 64, 64, "./img/viper.png");
@@ -80,6 +87,16 @@
       enemyArray[i] = new Enemy(ctx, 0, 0, 48, 48, "./img/enemy_small.png");
       enemyArray[i].setShotArray(enemyShotArray);
     }
+
+    // 衝突判定を行うために対象を設定する
+    for (let i = 0; i < shotMaxCount; ++i) {
+      shotArray[i].setTargets(enemyArray);
+      singleShotArray[i * 2].setTargets(enemyArray);
+      singleShotArray[i * 2 + 1].setTargets(enemyArray);
+      shotArray[i].setExplosions(explosionArray);
+      singleShotArray[i * 2].setExplosions(explosionArray);
+      singleShotArray[i * 2 + 1].setExplosions(explosionArray);
+    }
   }
 
   function sceneSetting() {
@@ -96,7 +113,7 @@
           // ライフが0の敵があれば配置
           if (enemyArray[i].life <= 0) {
             let e = enemyArray[i];
-            e.set(canvasWidth / 2, -e.height, 1, "default");
+            e.set(canvasWidth / 2, -e.height, 2, "default");
             e.setVector(0.0, 1.0);
             break;
           }
@@ -155,6 +172,9 @@
       v.update();
     });
     enemyShotArray.map((v) => {
+      v.update();
+    });
+    explosionArray.map((v) => {
       v.update();
     });
 
