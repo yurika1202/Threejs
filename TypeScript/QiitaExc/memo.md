@@ -91,3 +91,46 @@ type Args = [string, ...number[]];
 ### ジェネリクスへの応用
 
 [再読する](https://qiita.com/uhyo/items/e2fdef2d3236b9bfe74a#%E3%82%BF%E3%83%97%E3%83%AB%E5%9E%8B%E3%81%A8%E5%8F%AF%E5%A4%89%E9%95%B7%E5%BC%95%E6%95%B0%E3%81%A8%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AA%E3%82%AF%E3%82%B9)
+
+## union 型
+
+複数の型のどれかに当てはまる型を表すときに`|`を用いて記述する。
+
+### 絞り込み
+
+オブジェクトで union 型を用いた場合、無い可能性のあるプロパティを参照することはできない。（すべてのオブジェクト型に含まれているプロパティのみ参照可能）  
+**in 演算子を使う**  
+in 演算子を使って if 文で条件分岐することで変数の型を絞り込むことが可能。  
+ただしいろいろと注意が必要そう…  
+**typeof 演算子を使う**  
+プリミティブ型の絞り込みなら断然 typeof 演算子がよき。  
+与えられた値の型を文字列で返してくれる。  
+[参考：【TypeScript】Union 型の型ガード・型の絞り込み方法まとめ](https://nishinatoshiharu.com/type-guard-methods/)  
+**タグ付き union 型**  
+オブジェクトでも union 型を使いたい！という時は、リテラル型と union 型を組み合わせてタグ付き union を再現する方法が推奨されている。  
+[参考：判別可能なユニオン型](https://typescriptbook.jp/reference/values-types-variables/discriminated-union)  
+[参考：TypeScript 4.6 で起こるタグ付きユニオンのさらなる進化](https://zenn.dev/uhyo/articles/ts-4-6-destructing-unions)
+
+### null チェック
+
+`string | null`として絞り込みを行うと、null かもしれないという前提があるのでプロパティの参照などが行えない。  
+対して「null でない時だけ処理を実行する」などを記述するときは、`value != null`という条件式を使用する。
+
+### never 型
+
+属する値が存在しない型で、部分型関係の一番下にある型。  
+どんな値も never 型の変数に入れることはできないが、never 型の値はどんな型にも入れることができる。
+
+### intersection 型
+
+union 型と対の関係にあるもので、`&`を用いて記述する。
+
+## 省略可能なプロパティ
+
+`?`をつけて宣言されているプロパティは省略可能。  
+自動的に undefine 型との union 型になるため、undefined チェックを行う必要がある。
+?修飾子よりも undefine との union 型を使用することを推奨。
+
+## readonly
+
+再代入できないプロパティを作成するときに使用する修飾子。（const のプロパティ版）
